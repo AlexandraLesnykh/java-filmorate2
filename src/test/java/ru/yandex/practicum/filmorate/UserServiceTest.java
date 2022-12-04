@@ -38,12 +38,12 @@ public class UserServiceTest {
         userController.create(user);
         userController.findUser(1);
         assertEquals(userController.findAll().get(0), user);
-
     }
 
     @Test
     public void shouldThrowExceptionWhenIdDoesntExistTest() throws ValidationException {
         userController.create(user);
+        
         final ObjectNotFoundException exception = Assertions.assertThrows(
                 ObjectNotFoundException.class,
                 () -> userController.findUser(999)
