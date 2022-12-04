@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.validation;
+package ru.yandex.practicum.filmorate.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = FilmValidator.class)
 public @interface FilmValid {
-    String message() default "error film data";
+    String message() default "error film data.";
 
     Class<?>[] groups() default {};
 
