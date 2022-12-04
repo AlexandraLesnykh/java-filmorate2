@@ -21,7 +21,7 @@ public class UserController {
         this.userStorage = userStorage;
     }
 
-    @GetMapping("/users") // получение списка пользователей
+    @GetMapping("/users") // получение списка пользователей.
     public List<User> findAll() {
         return userStorage.findAll();
     }

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = UserValidator.class)
     public @interface UserValid {
-        String message() default "error user birthday";
+        String message() default "error user birthday.";
 
         Class<?>[] groups() default {};
 

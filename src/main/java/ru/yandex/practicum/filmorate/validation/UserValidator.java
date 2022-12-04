@@ -13,5 +13,6 @@ public class UserValidator implements ConstraintValidator<UserValid, LocalDate> 
     public boolean isValid(LocalDate birthday, ConstraintValidatorContext constraintValidatorContext) {
         return birthday.isBefore(LocalDate.now());
     }
+
 }
 

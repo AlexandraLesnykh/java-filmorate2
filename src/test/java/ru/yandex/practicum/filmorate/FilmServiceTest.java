@@ -26,7 +26,7 @@ public class FilmServiceTest {
     User user = new User(1, "Name", LocalDate.of(1990, 10, 11),
             "fkg@mail.ru", "Login");
     User user1 = new User(1, "Name2", LocalDate.of(1990, 10, 11),
-            "fsfg@mail.ru", "Login2");
+            "fsfg@mail.ru", "Logiln2");
     InMemoryFilmStorage inMemoryFilmStorage = new InMemoryFilmStorage();
     FilmService filmService = new FilmService(inMemoryFilmStorage);
     FilmController filmController = new FilmController(filmService, inMemoryFilmStorage);

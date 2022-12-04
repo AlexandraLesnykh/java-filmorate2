@@ -21,7 +21,7 @@ public class UserService {
 
     List<User> commonFriends = new ArrayList<>();
 
-    public User findUser(int id) { // получение пользователя по ID
+    public User findUser(int id) { // получение пользователя по ID.
             if (!userStorage.getUsers().containsKey(id)) {
                 throw new ObjectNotFoundException("There no user with such id");
             }

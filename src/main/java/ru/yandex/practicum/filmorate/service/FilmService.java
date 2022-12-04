@@ -38,7 +38,7 @@ public class FilmService {
             }
     }
 
-    public void deleteLike(int id, int userId) { //удаление лайка
+    public void deleteLike(int id, int userId) { //удаление лайка.
             if (userId < 0) {
                 throw new ObjectNotFoundException("Wrong id.");
             }

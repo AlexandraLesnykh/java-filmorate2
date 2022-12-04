@@ -26,7 +26,7 @@ public class FilmController {
         this.filmStorage = filmStorage;
     }
 
-    @GetMapping("/films") // получение списка фильмов
+    @GetMapping("/films") // получение списка фильмов.
     public List<Film> findAll() {
         return filmStorage.findAll();
     }

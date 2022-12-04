@@ -19,7 +19,7 @@ public class Film {
     @FilmValid
     private LocalDate releaseDate;
     @Min(1)
-    private long duration; //минуты
+    private long duration; //минуты.
     @NonNull
     private String name;
 

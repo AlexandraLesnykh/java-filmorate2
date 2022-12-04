@@ -2,27 +2,20 @@ package ru.yandex.practicum.filmorate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exeptions.ObjectNotFoundException;
 import ru.yandex.practicum.filmorate.exeptions.ValidationException;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserServiceTest {
-  User user = new User(1, "Name", LocalDate.of(1990, 10, 11),
+    User user = new User(1, "Name", LocalDate.of(1990, 10, 11),
             "fkg@mail.ru", "Login");
     User user1 = new User(1, "Name2", LocalDate.of(1990, 10, 11),
             "fsfg@mail.ru", "Login2");
@@ -43,7 +36,7 @@ public class UserServiceTest {
     @Test
     public void shouldThrowExceptionWhenIdDoesntExistTest() throws ValidationException {
         userController.create(user);
-        
+
         final ObjectNotFoundException exception = Assertions.assertThrows(
                 ObjectNotFoundException.class,
                 () -> userController.findUser(999)
@@ -94,7 +87,7 @@ public class UserServiceTest {
         userController.create(user1);
         userController.create(user2);
 
-      //  assertEquals(userController.addToFriendList(user.getId(), user2.getId()), List.of(user2));
+        //  assertEquals(userController.addToFriendList(user.getId(), user2.getId()), List.of(user2));
     }
 
     @Test

@@ -24,7 +24,7 @@ public class User {
         this.login = login;
     }
 
-   private Set<Long> friends = new HashSet<>();
+    private Set<Long> friends = new HashSet<>();
     public void setFriends(int id) {
         friends.add((long) id);
     }
