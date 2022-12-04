@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exeptions.ActionHasAlreadyDoneException;
 
 import ru.yandex.practicum.filmorate.exeptions.ObjectNotFoundException;
+import ru.yandex.practicum.filmorate.exeptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
@@ -20,6 +21,18 @@ public class UserService {
     }
 
     List<User> commonFriends = new ArrayList<>();
+
+    public List<User> findAll(){
+        return userStorage.findAll();
+    }
+
+    public User create(User user) throws ValidationException {
+        return userStorage.create(user);
+    }
+
+    public User update(User user) throws ValidationException {
+        return userStorage.update(user);
+    }
 
     public User findUser(int id) { // получение пользователя по ID.
             if (!userStorage.getUsers().containsKey(id)) {

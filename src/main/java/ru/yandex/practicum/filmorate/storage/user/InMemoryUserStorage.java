@@ -29,8 +29,6 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public User create(@Valid User user) throws ValidationException {
-        try {
-           // Optional<String> userName = Optional.of(user.getName());
             Set<ConstraintViolation<User>> validate = validator.validate(user);
             if (validate.size() > 0 || user.getLogin() == "" )
             {
@@ -42,14 +40,10 @@ public class InMemoryUserStorage implements UserStorage {
                 }
                 users.put(user.getId(), user);
             }
-        }catch (ValidationException validationException) {
-            throw new ValidationException(validationException.getMessage());
-        }
         return user;
     }
 
     public User update(@Valid User user) throws ValidationException {
-        try {
             Set<ConstraintViolation<User>> validate = validator.validate(user);
             if (validate.size() > 0 || user.getLogin() == "" ||
                     user.getBirthday().isAfter(LocalDate.now())) {
@@ -62,11 +56,6 @@ public class InMemoryUserStorage implements UserStorage {
                     throw new ObjectNotFoundException("Error while updating");
                 }
             }
-        } catch (ValidationException exception){
-            throw new ValidationException(exception.getMessage());
-        } catch (ObjectNotFoundException exception){
-            throw new ObjectNotFoundException(exception.getMessage());
-        }
         return user;
     }
 }

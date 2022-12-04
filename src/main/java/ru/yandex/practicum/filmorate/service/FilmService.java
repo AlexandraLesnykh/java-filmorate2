@@ -23,6 +23,18 @@ public class FilmService {
     // значения - ID пользователей, кто лайкнул
     List<Film> popularFilms = new ArrayList<>();
 
+    public List<Film> findAll(){
+        return filmStorage.findAll();
+    }
+
+    public Film create(Film film){
+        return filmStorage.create(film);
+    }
+
+    public Film update(Film film){
+        return filmStorage.update(film);
+    }
+
     public Film findFilm(int id) { // получение пользователя по ID
             if (!filmStorage.getFilms().containsKey(id)) {
                 throw new ObjectNotFoundException("There no film with such id");

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exeptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -13,28 +12,26 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final UserStorage userStorage;
 
     @Autowired
-    public UserController(UserService userService, UserStorage userStorage) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userStorage = userStorage;
     }
 
     @GetMapping("/users") // получение списка пользователей.
     public List<User> findAll() {
-        return userStorage.findAll();
+        return userService.findAll();
     }
 
 
     @PostMapping(value = "/users") // добавление пользователя
     public User create(@RequestBody @Valid User user) throws ValidationException {
-        return userStorage.create(user);
+        return userService.create(user);
     }
 
     @PutMapping(value = "/users") // обновление пользователя
     public User update(@RequestBody @Valid User user) throws ValidationException {
-        return userStorage.update(user);
+        return userService.update(user);
     }
 
     @GetMapping("/users/{id}") // получение пользователя по ID

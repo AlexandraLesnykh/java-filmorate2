@@ -29,7 +29,6 @@ public class InMemoryFilmStorage implements FilmStorage{
     }
 
     public Film create (@Valid Film film) throws ValidationException {
-        try {
             Set<ConstraintViolation<Film>> validate = validator.validate(film);
             if (validate.size() > 0 || film.getName()=="") {
                 throw new  ValidationException("Error while saving");
@@ -37,14 +36,10 @@ public class InMemoryFilmStorage implements FilmStorage{
                 film.setId(idCount++);
                 films.put(film.getId(), film);
             }
-        } catch (ValidationException validationException) {
-            throw new ValidationException(validationException.getMessage());
-        }
         return film;
     }
 
     public Film update(@Valid Film film) throws ValidationException {
-        try {
             Set<ConstraintViolation<Film>> validate = validator.validate(film);
             if (validate.size() > 0 || film.getName() == "") {
                 throw new ValidationException("Error while updating");
@@ -56,9 +51,6 @@ public class InMemoryFilmStorage implements FilmStorage{
                     throw new ValidationException("Error while updating");
                 }
             }
-        } catch (ValidationException validationException) {
-            throw new ValidationException(validationException.getMessage());
-        }
         return film;
     }
 

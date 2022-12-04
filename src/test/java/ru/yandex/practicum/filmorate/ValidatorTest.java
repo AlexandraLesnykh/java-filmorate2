@@ -32,7 +32,7 @@ public class ValidatorTest {
     FilmStorage filmStorage;
     InMemoryFilmStorage inMemoryFilmStorage = new InMemoryFilmStorage();
     FilmService filmService = new FilmService(inMemoryFilmStorage);
-    FilmController filmController = new FilmController(filmService, inMemoryFilmStorage);
+    FilmController filmController = new FilmController(filmService);
     User user = new User(0, "Name", LocalDate.of(1990, 10, 11),
             "fkg@mail.ru", "Login");
     User user1 = new User(1, "Name2", LocalDate.of(1990, 10, 11),
@@ -41,7 +41,7 @@ public class ValidatorTest {
     InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
     UserService userService = new UserService(inMemoryUserStorage);
 
-    UserController userController = new UserController(userService, inMemoryUserStorage);
+    UserController userController = new UserController(userService);
 
     private static final Validator validator;
 

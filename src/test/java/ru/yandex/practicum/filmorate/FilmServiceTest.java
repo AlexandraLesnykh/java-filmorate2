@@ -29,12 +29,12 @@ public class FilmServiceTest {
             "fsfg@mail.ru", "Logiln2");
     InMemoryFilmStorage inMemoryFilmStorage = new InMemoryFilmStorage();
     FilmService filmService = new FilmService(inMemoryFilmStorage);
-    FilmController filmController = new FilmController(filmService, inMemoryFilmStorage);
+    FilmController filmController = new FilmController(filmService);
 
     InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
     UserService userService = new UserService(inMemoryUserStorage);
 
-    UserController userController = new UserController(userService, inMemoryUserStorage);
+    UserController userController = new UserController(userService);
 
 
     @Test
