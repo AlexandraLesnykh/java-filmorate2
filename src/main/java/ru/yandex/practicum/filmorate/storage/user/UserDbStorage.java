@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import ru.yandex.practicum.filmorate.exeptions.ObjectNotFoundException;
 import ru.yandex.practicum.filmorate.exeptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.rowMapper.RowMapper;
@@ -20,7 +22,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-@Primary
+@Qualifier
 public class UserDbStorage implements UserStorage{
 
     private final JdbcTemplate jdbcTemplate;
@@ -47,7 +49,7 @@ public class UserDbStorage implements UserStorage{
         String sqlQuery = "SELECT u.user_id, u.email, u.login, u.name, u.birthday FROM users AS u WHERE u.user_id = ?";
         List<User> users = jdbcTemplate.query(sqlQuery, RowMapper::rowMapToUser, id);
         if (users.size() != 1) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user with id " + id + " hasn't found!");
+            throw new ObjectNotFoundException("Wrong id");
         }
         return users.get(0);
     }
@@ -80,7 +82,7 @@ public class UserDbStorage implements UserStorage{
                     Date.valueOf(user.getBirthday()),
                     user.getId());
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user with id " + user.getId() + " hasn't found!");
+            throw new ObjectNotFoundException("Wrong id");
         }
         log.info("User " + user.getName() + " has been updated to the database." );
         return user;
@@ -91,7 +93,7 @@ public class UserDbStorage implements UserStorage{
             String sqlQuery = "INSERT INTO friends (user_id, friend_id, status) VALUES (?, ?, 1)";
             jdbcTemplate.update(sqlQuery, id, friendId);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error request");
+            throw new ObjectNotFoundException("Wrong id");
         }
         log.info("User " + findUser(id).getName() + " became friend to " + findUser(friendId).getName());
     }
@@ -101,7 +103,7 @@ public class UserDbStorage implements UserStorage{
             String sqlQuery = "DELETE FROM friends WHERE user_id = ? AND friend_id = ?";
             jdbcTemplate.update(sqlQuery, id, friendId);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error request");
+            throw new ObjectNotFoundException("Wrong id");
         }
         log.info("User " + findUser(id).getName() + " deleted  " + findUser(friendId).getName() + " from friendliest");
     }
@@ -114,7 +116,7 @@ public class UserDbStorage implements UserStorage{
                     "WHERE f.user_id = ?";
             return jdbcTemplate.query(sqlQuery, RowMapper::rowMapToUser, id);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user with id " + id + " hasn't found.");
+            throw new ObjectNotFoundException("Wrong id");
         }
     }
 
@@ -127,7 +129,7 @@ public class UserDbStorage implements UserStorage{
                     "WHERE f1.USER_ID = ? AND f2.USER_ID = ?";
             return jdbcTemplate.query(sqlQuery, RowMapper::rowMapToUser, id, friendId);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error request");
+            throw new ObjectNotFoundException("Wrong id");
         }
     }
 }

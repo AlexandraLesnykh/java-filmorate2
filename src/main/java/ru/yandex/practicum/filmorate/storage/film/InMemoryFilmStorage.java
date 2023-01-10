@@ -3,6 +3,8 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exeptions.ActionHasAlreadyDoneException;
 import ru.yandex.practicum.filmorate.exeptions.ObjectNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import javax.validation.*;
 import java.util.*;
@@ -94,5 +96,25 @@ public class InMemoryFilmStorage implements FilmStorage{
             }
         }
         return popularFilms;
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return null;
+    }
+
+    @Override
+    public Genre getGenreById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public List<Mpa> getAllMpa() {
+        return null;
+    }
+
+    @Override
+    public Mpa getMpaById(Integer id) {
+        return null;
     }
 }

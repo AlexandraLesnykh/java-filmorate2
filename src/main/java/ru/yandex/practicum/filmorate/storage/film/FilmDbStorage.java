@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.yandex.practicum.filmorate.exeptions.ObjectNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
@@ -24,13 +27,13 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-@Primary
+@Qualifier
 public class FilmDbStorage implements FilmStorage{
 
     private final JdbcTemplate jdbcTemplate;
     private final UserStorage userStorage;
 
-    public FilmDbStorage(JdbcTemplate jdbcTemplate, UserStorage userStorage) {
+    public FilmDbStorage(JdbcTemplate jdbcTemplate, @Qualifier("userDbStorage") UserStorage userStorage) {
         this.jdbcTemplate = jdbcTemplate;
         this.userStorage = userStorage;
     }
@@ -49,7 +52,7 @@ public class FilmDbStorage implements FilmStorage{
         List<Film> films = jdbcTemplate.query(sqlQuery, RowMapper::rowMapToFilm, id);
         films.forEach(f -> f.setGenres(getGenres(f.getId())));
         if (films.size() != 1) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The film id " + id + " not found!");
+            throw new ObjectNotFoundException("Wrong id");
         }
         return films.get(0);
     }
@@ -66,6 +69,7 @@ public class FilmDbStorage implements FilmStorage{
     }
 
     @Override
+    @Transactional
     public Film create(Film film) {
         String sqlQuery = "INSERT INTO films (TITLE, description, release_date, duration, RATE, MPA_ID) " +
                 "values (?, ?, ?, ?, ?, ?)";
@@ -106,7 +110,7 @@ public class FilmDbStorage implements FilmStorage{
                 film.setGenres(genres);
                         addFilmGenre(film);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The film " + film.getName() + " has not found.");
+            throw new ObjectNotFoundException("Wrong id");
         }
         log.info("The film " + film.getName() + " has been updated." );
         return film;
@@ -156,7 +160,7 @@ public class FilmDbStorage implements FilmStorage{
             jdbcTemplate.update(sqlQuery, id);
             log.info("User with id" + id + " liked the film " + findFilm(id).getName());
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error request");
+            throw new ObjectNotFoundException("Wrong id");
         }
     }
 
@@ -167,10 +171,11 @@ public class FilmDbStorage implements FilmStorage{
             log.info("User with id " + id + " deleted the like from the film " +
                     findFilm(id).getName());
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error request");
+            throw new ObjectNotFoundException("Wrong id");
         }
     }
 
+    @Override
     public List<Genre> getAllGenres() {
         String sqlQuery = "SELECT *\n" +
                 "FROM GENRES\n" +
@@ -178,25 +183,28 @@ public class FilmDbStorage implements FilmStorage{
         return jdbcTemplate.query(sqlQuery, RowMapper::rowMapToGenre);
     }
 
+    @Override
     public Genre getGenreById(Integer id) {
         String sqlQuery = "SELECT * FROM genres WHERE genre_id = ?";
         List<Genre> genres = jdbcTemplate.query(sqlQuery, RowMapper::rowMapToGenre, id);
         if (genres.size() != 1) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The genre with id " + id + " hasn't found!");
+            throw new ObjectNotFoundException("Wrong id");
         }
         return genres.get(0);
     }
 
+    @Override
     public List<Mpa> getAllMpa() {
         String sqlQuery = "SELECT * FROM MPA";
         return jdbcTemplate.query(sqlQuery, RowMapper::rowMapToMpa);
     }
 
+    @Override
     public Mpa getMpaById(Integer id) {
         String sqlQuery = "SELECT * FROM MPA WHERE MPA_ID = ?";
         List<Mpa> mpas = jdbcTemplate.query(sqlQuery, RowMapper::rowMapToMpa, id);
         if (mpas.size() != 1) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The MPA with id " + id + " hasn't found!");
+            throw new ObjectNotFoundException("Wrong id");
         }
         return mpas.get(0);
     }

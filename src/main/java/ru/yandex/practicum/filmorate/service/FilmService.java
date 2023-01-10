@@ -19,14 +19,11 @@ import java.util.*;
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
-    private final FilmDbStorage filmDbStorage;
-
     private static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
 
     @Autowired
-    public FilmService(@Qualifier("filmDbStorage") FilmStorage filmStorage, FilmDbStorage filmDbStorage) {
+    public FilmService(@Qualifier("filmDbStorage") FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
-        this.filmDbStorage = filmDbStorage;
     }
 
     public List<Film> findAll(){
@@ -71,19 +68,19 @@ public class FilmService {
     }
 
     public List<Genre> getAllGenre() {
-        return filmDbStorage.getAllGenres();
+        return filmStorage.getAllGenres();
     }
 
     public Genre getGenreById(int id) {
-        return filmDbStorage.getGenreById(id);
+        return filmStorage.getGenreById(id);
     }
 
     public List<Mpa> getAllMpa() {
-        return filmDbStorage.getAllMpa();
+        return filmStorage.getAllMpa();
     }
 
     public Mpa getMpaById(int id) {
-        return filmDbStorage.getMpaById(id);
+        return filmStorage.getMpaById(id);
     }
 }
 

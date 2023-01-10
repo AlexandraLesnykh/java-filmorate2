@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.validation.UserValid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -16,11 +17,14 @@ public class User {
 
     @NotBlank
     @Email
+    @Size(min = 7)
     private String email;
 
     @NotBlank
+    @Size(min = 3)
     private String login;
 
+    @Size(max = 256)
     private String name;
 
     @Past
