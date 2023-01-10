@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.validation;
+package ru.yandex.practicum.filmorate.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,5 +13,6 @@ public class UserValidator implements ConstraintValidator<UserValid, LocalDate> 
     public boolean isValid(LocalDate birthday, ConstraintValidatorContext constraintValidatorContext) {
         return birthday.isBefore(LocalDate.now());
     }
+
 }
 
