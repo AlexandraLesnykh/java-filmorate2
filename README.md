@@ -1,6 +1,4 @@
 # java-filmorate
 Template repository for Filmorate project.
- 
-
-—хема базы данных:
-![](QuickDBD-FilmorateDiagramm.png)
+ Schema of database:
+![](C:\Users\Cашулька\dev\java-filmorate2\src\main\images\QuickDBD-FilmorateDiagramm.png)
