@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.validation;
+package ru.yandex.practicum.filmorate.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = UserValidator.class)
     public @interface UserValid {
-        String message() default "error user birthday";
+        String message() default "error user birthday.";
 
         Class<?>[] groups() default {};
 
