@@ -22,7 +22,7 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-@Qualifier
+@Qualifier("userDbStorage")
 public class UserDbStorage implements UserStorage{
 
     private final JdbcTemplate jdbcTemplate;
